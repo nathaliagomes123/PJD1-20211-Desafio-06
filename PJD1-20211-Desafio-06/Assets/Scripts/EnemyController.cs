@@ -6,6 +6,7 @@ public class EnemyController : Rigidbody2DBase, IPoolableObject
 {
     public int Hp { get; protected set; }
 
+
     private void Start()
     {
         Hp = Random.Range(100, 201);
@@ -22,8 +23,9 @@ public class EnemyController : Rigidbody2DBase, IPoolableObject
         else
         {
             return false;
-        }
-        */
+        }*/
+        if(Hp <= 0)
+            Destroy(gameObject);
         return Hp <= 0;
     }
 

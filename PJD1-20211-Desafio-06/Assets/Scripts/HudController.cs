@@ -22,13 +22,13 @@ public class HudController : MonoBehaviour
         GameEvents.WeaponFireEvent.AddListener(HandleAmmo);
     }
 
-    protected void HandleAmmo(int currentAmmo, int maxAmmo, WeaponType weapon)
+    protected void HandleAmmo(int currentAmmo, int maxAmmo)
     {
         Ammo.text = string.Format("{0}/{1}", currentAmmo, maxAmmo);
         Ammo.color = Color.Lerp(AmmoMin, AmmoMax, (float)currentAmmo / (float)maxAmmo);
     }
 
-    protected void HandleReload(float reloadSpeed, int ammo, WeaponType weapon)
+    protected void HandleReload(float reloadSpeed)
     {
         StartCoroutine(StartReload(reloadSpeed));
     }
@@ -47,7 +47,10 @@ public class HudController : MonoBehaviour
 
     private void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            HandleReload(5f);
+        }
     }
 
 }

@@ -31,7 +31,7 @@ public class MachineGun : Weapon
         Vector3 rotationEuler = bulletRespawn.rotation.eulerAngles;
         float rotationZ = Random.Range(rotationEuler.z - Accuracy, rotationEuler.z + Accuracy);
         Quaternion rotation = Quaternion.Euler(rotationEuler.x, rotationEuler.y, rotationZ);
-        GameObject go = Factory.GetObject(FactoryItem.PlayerBullet, bulletRespawn.position, rotation);
+        GameObject go = Factory.GetObject("bullet", bulletRespawn.position, rotation);
         BulletController bullet = go.GetComponent<BulletController>();
         MachineGunDTO mdto = (MachineGunDTO)weaponDTO;
         bullet.Init(mdto);

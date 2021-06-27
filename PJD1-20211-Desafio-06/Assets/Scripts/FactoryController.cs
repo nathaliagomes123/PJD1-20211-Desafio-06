@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Factory = FactoryController;
 
-public enum FactoryItem { None, PlayerBullet, Enemy }
-
 public class FactoryController : MonoBehaviour
 {
     static private Transform tf;
 
-    static protected Dictionary<FactoryItem, GameObject> register = new Dictionary<FactoryItem, GameObject>();
-    static protected Dictionary<FactoryItem, Queue<GameObject>> pool = new Dictionary<FactoryItem, Queue<GameObject>>();
+    static protected Dictionary<string, GameObject> register = new Dictionary<string, GameObject>();
+    static protected Dictionary<string, Queue<GameObject>> pool = new Dictionary<string, Queue<GameObject>>();
 
     private void Awake()
     {
@@ -24,7 +22,7 @@ public class FactoryController : MonoBehaviour
         pool.Clear();
     }
 
-    static public void Register(FactoryItem key, GameObject prefab, int count)
+    static public void Register(string key, GameObject prefab, int count)
     {
         register.Add(key, prefab);
 
@@ -43,7 +41,7 @@ public class FactoryController : MonoBehaviour
         pool.Add(key, queue);
     }
 
-    static public GameObject GetObject(FactoryItem key, Vector3 position, Quaternion rotation)
+    static public GameObject GetObject(string key, Vector3 position, Quaternion rotation)
     {
         GameObject go = pool[key].Dequeue();
         go.transform.position = position;
@@ -53,7 +51,7 @@ public class FactoryController : MonoBehaviour
         return go;
     }
 
-    static public void Recycle(FactoryItem key, GameObject go)
+    static public void Recycle(string key, GameObject go)
     {
         IPoolableObject obj = go.GetComponent<IPoolableObject>();
         obj.Recycle();

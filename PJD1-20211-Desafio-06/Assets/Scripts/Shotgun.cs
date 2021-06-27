@@ -36,7 +36,7 @@ public class Shotgun : Weapon
             Vector3 rotationEuler = bulletRespawn.rotation.eulerAngles;
             float rotationZ = rotationEuler.z + firstAngle + stepAngle * i;
             Quaternion rotation = Quaternion.Euler(rotationEuler.x, rotationEuler.y, rotationZ);
-            GameObject go = Factory.GetObject(FactoryItem.PlayerBullet, bulletRespawn.position, rotation);
+            GameObject go = Factory.GetObject("bullet", bulletRespawn.position, rotation);
             BulletController bullet = go.GetComponent<BulletController>();
             bullet.Init(weaponDTO);
         }

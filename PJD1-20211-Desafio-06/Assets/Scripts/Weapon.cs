@@ -66,7 +66,7 @@ public class Weapon : MonoBehaviour
 
     protected virtual void CreateProjectile()
     {
-        GameObject go = Factory.GetObject(FactoryItem.PlayerBullet, bulletRespawn.position, bulletRespawn.rotation);
+        GameObject go = Factory.GetObject("bullet", bulletRespawn.position, bulletRespawn.rotation);
         BulletController bullet = go.GetComponent<BulletController>();
         bullet.Init(weaponDTO);
     }
@@ -75,7 +75,7 @@ public class Weapon : MonoBehaviour
     {
         isFiring = true;
         Ammo--;
-        GameEvents.WeaponFireEvent.Invoke(Ammo, AmmoMax, Type);
+        GameEvents.WeaponFireEvent.Invoke(Ammo, AmmoMax);
         yield return new WaitForSeconds(FireRate);
         isFiring = false;
     }
@@ -90,19 +90,13 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator ReloadCooldown()
     {
-        int amount = GameController.CheckReloadPlayerAmmunition(Type);
-        if(amount <= 0)
-        {
-            yield break;
-        }
         Debug.Log("Begin Reload");
         isReloading = true;
-        int ammoDiff = Mathf.Min(AmmoMax, amount);
-        GameEvents.WeaponReloadEvent.Invoke(ReloadSpeed,ammoDiff,Type);
+        GameEvents.WeaponReloadEvent.Invoke(ReloadSpeed);
         yield return new WaitForSeconds(ReloadSpeed);
-        Ammo = ammoDiff;
+        Ammo = AmmoMax;
         isReloading = false;
-        GameEvents.WeaponFireEvent.Invoke(Ammo, AmmoMax,Type);
+        GameEvents.WeaponFireEvent.Invoke(Ammo, AmmoMax);
         Debug.Log("End Reload");
     }
 

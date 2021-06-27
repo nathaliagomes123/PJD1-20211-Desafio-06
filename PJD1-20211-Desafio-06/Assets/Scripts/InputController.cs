@@ -22,73 +22,19 @@ public class InputController : MonoBehaviour
     [SerializeField]
     private Vector3 MousePosition;
 
-    public Joystick JoystickLeft;
-    public Joystick JoystickRight;
-
     private void Awake()
     {
         cam = Camera.main;
         player = GameObject.FindObjectOfType<PlayerController>();
     }
 
-    private float GetHorizontal()
-    {
-        float h = 0f;
-        float jh = JoystickLeft.Horizontal;
-        float kh = Input.GetAxis("Horizontal");
-
-        if(jh != 0f)
-        {
-            h = jh;
-        }
-        else if(kh != 0f)
-        {
-            h = kh;
-        }
-
-        return h;
-    }
-
-    private float GetVertical()
-    {
-        float v = 0f;
-        float jv = JoystickLeft.Vertical;
-        float kv = Input.GetAxis("Vertical");
-
-        if (jv != 0f)
-        {
-            v = jv;
-        }
-        else if (kv != 0f)
-        {
-            v = kv;
-        }
-
-        return v;
-    }
-
-    private Vector2 GetAngle()
-    {
-        Vector2 angle = new Vector2();
-        MousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        if (JoystickRight.Direction != Vector2.zero)
-        {
-            angle = JoystickRight.Direction;
-        }
-        else if(MousePosition != Vector3.zero)
-        {
-            angle = MousePosition - player.transform.position;
-        }
-        
-        return angle;
-    }
-
-
     // Update is called once per frame
     void Update()
     {
-        Horizontal = GetHorizontal();
-        Vertical = GetVertical();
+        Horizontal = Input.GetAxis("Horizontal");
+        Vertical = Input.GetAxis("Vertical");
+
+        MousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
 
         Fire = Input.GetMouseButton(0);
         Reload = Input.GetMouseButton(1);
@@ -123,14 +69,8 @@ public class InputController : MonoBehaviour
             SelectWeapon--;
         }
 
-        if(Input.GetKey(KeyCode.Space))
-        {
-            GameController.RespawnEnemy();
-        }
 
-        Vector2 angle = GetAngle();
-
-        player.SetInput(Horizontal, Vertical, angle, SelectWeapon, Fire, Reload);
+        player.SetInput(Horizontal, Vertical, MousePosition, SelectWeapon, Fire, Reload);
 
     }
 }
