@@ -106,7 +106,11 @@ public class PlayerController : Rigidbody2DBase
         Fire = fire;
         Reload = reload;
     }
-
+    public bool ApplyDamage(int damage)
+    {
+        Hp -= damage;
+        return Hp <= 0;
+    }
     private void Update()
     {
         if(Fire)
